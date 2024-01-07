@@ -53,4 +53,17 @@ def say_hello(request):
     #Create
     # collection = Collection.objects.create(title='a', featured_product_id = 1)
     # collection.id
+
+    #Delete
+    collection = Collection(pk=1)
+    collection.delete()
+
+    #Delete multiple objects
+    # Collection.objects.filter(id__gt=5).delete()
+
+#Transactions
+    order = Order()
+    order.customer_id = 1
+    order.save()
+
     return render(request,'hello.html')
