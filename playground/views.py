@@ -1,11 +1,16 @@
+
+from django.db.models import DecimalField
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.db.models import Q, F
 from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, Order, OrderItem, Customer
+from store.models import Collection, Product, Order, OrderItem, Customer
 from django.db.models.aggregates import Count, Min, Max, Aggregate
-from django.db.models import Value, Func
+from django.db.models import Value, Func, ExpressionWrapper
 from django.db.models.functions import Concat
+from django.contrib.contenttypes.models import ContentType
+from store.models import Product
+from tags.models import TaggedItem
 
 # Create your views here.
 def say_hello(request):
@@ -29,5 +34,23 @@ def say_hello(request):
 
 
 #Annotating objects
-    query_Set = Customer.objects.annotate(full_name = Concat('first_name', Value(" "),'last_name'))
-    return render(request,'hello.html',{'customers':list(query_Set)})
+    # query_Set = Customer.objects.annotate(full_name = Concat('first_name', Value(" "),'last_name'))
+    # query_Set = Customer.objects.annotate(orders_count = Count('order'))
+    # discounted_price = ExpressionWrapper(F('unit_price')*0.8, output_field=DecimalField())
+    # query_Set = Product.objects.annotate(
+    #     discounted_price =  discounted_price
+    # )
+    # query_set = TaggedItem.objects.get_tags_for(Product,1)
+
+#Saving objects in database
+    
+    #Update
+    collection = Collection.objects.get(pk=1)
+    collection.featured_product = None
+    collection.save()
+    collection.id
+
+    #Create
+    # collection = Collection.objects.create(title='a', featured_product_id = 1)
+    # collection.id
+    return render(request,'hello.html')
