@@ -11,6 +11,8 @@ from django.db.models.functions import Concat
 from django.contrib.contenttypes.models import ContentType
 from store.models import Product
 from tags.models import TaggedItem
+from django.db import transaction
+from django.db import connection
 
 # Create your views here.
 def say_hello(request):
@@ -45,25 +47,47 @@ def say_hello(request):
 #Saving objects in database
     
     #Update
-    collection = Collection.objects.get(pk=1)
-    collection.featured_product = None
-    collection.save()
-    collection.id
+    # collection = Collection.objects.get(pk=1)
+    # collection.featured_product = None
+    # collection.save()
+    # collection.id
 
     #Create
     # collection = Collection.objects.create(title='a', featured_product_id = 1)
     # collection.id
 
     #Delete
-    collection = Collection(pk=1)
-    collection.delete()
+    # collection = Collection(pk=1)
+    # collection.delete()
 
     #Delete multiple objects
     # Collection.objects.filter(id__gt=5).delete()
 
 #Transactions
-    order = Order()
-    order.customer_id = 1
-    order.save()
+    # with transaction.atomic():
+    #     order = Order.objects.create(
+    #         id = 1002,
+    #         customer_id = 1
+    #     )
 
-    return render(request,'hello.html')
+    #     item = OrderItem()
+    #     item.id = 1002
+    #     item.order = order
+    #     item.product_id =-1
+    #     item.quantity = 1
+    #     item.unit_price = 10
+    #     item.save()
+
+#Executing raw queries
+    # querySet = Product.objects.raw('SELECT id, title from store_product')
+
+    # cursor = connection.cursor()
+    # cursor.execute()
+
+    with connection.cursor() as cursor:
+        cursor.execute()
+        # executing stored procedure
+        cursor.callproc('get_customers',[1,2,'a'])
+
+
+    return render(request,'hello.html',{'result':list(querySet)})

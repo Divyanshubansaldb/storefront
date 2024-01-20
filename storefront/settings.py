@@ -33,13 +33,15 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sessions',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'playground',
     'debug_toolbar',
     'store',
-    'tags'
+    'tags',
+    'store_custom'
 ]
 
 MIDDLEWARE = [
@@ -89,7 +91,7 @@ DATABASES = {
         'NAME': 'storefront',
         'HOST': 'localhost',
         'USER': 'postgres',
-        'PASSWORD': 'Support2023@',
+        'PASSWORD': 'postgres',
         'PORT': '5432',
     }
 }
